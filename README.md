@@ -58,3 +58,51 @@ However, it does not have the concept of robot accounts so unless you create
 a Docker account which just manages your project's repository, you would have
 to store your personal Docker Hub password in third party services like CircleCI
 as an environment variable so it can pull the image.
+
+## Building and hosting an image remotely
+
+This repository is connected to a Quay.io repository to host images at
+https://quay.io/repository/juampynr/docker-mariadb.
+
+Here is how I configured it:
+
+I started by creating an account at Quay.io and then creating the repository.
+
+Next, I authenticated against Quay.io via the command line:
+
+```bash
+$ docker login quay.io
+Username: myusername
+Password: mypassword 
+```
+
+Then I could build an image using a tag that matches with the repository as 
+explained at [Quay.io](https://docs.quay.io/solution/getting-started.html).
+
+```bash
+$ docker build --tag quay.io/juampynr/docker-mariadb:2019-02-29-v1 .
+```
+
+Finally, here is how to push the image:
+
+```bash
+$ docker push quay.io/juampynr/docker-mariadb:2019-02-29-v1
+```
+
+From now on, collaborators that I add to the repository can pull the image via
+`docker pull quay.io/juampynr/docker-mariadb:2019-02-29-v1` while third
+party systems could do the same by using the credentials of a [robot account](https://docs.quay.io/glossary/robot-accounts.html).
+
+Here is an example where I am starting a container out of the remote image
+and then inspecting the database:
+
+```bash
+$ docker run -d --rm --name my_container quay.io/juampynr/docker-mariadb:2019-02-29-v1
+958314ce55fb24fc0e23ba56e74a8aef26bbacc2704e63b6698b22386dad96ae
+$ docker exec my_container mysql -uroot -proot myproject -e "select * from mytable;"
+mycolumn
+foo
+
+```
+
+
