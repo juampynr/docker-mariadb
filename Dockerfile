@@ -5,7 +5,7 @@ RUN apt-get update \
   && apt-get install mariadb-server -y
 
 COPY setup.sql /tmp/
-COPY dumps/myproject.sql /tmp/dumps/myproject.sql
+COPY dumps/dump.sql /tmp/dumps/dump.sql
 
 # We wait a couple seconds before stopping MariaDB to avoid the following error:
 # ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2 "No such file or directory")
@@ -14,7 +14,7 @@ RUN service mysql start && \
   sleep 2 && \
   service mysql stop
 
-# Now define another image where we copy the directory that hosts databases.
+# Now define another image where we copy the directory that stores databases;
 FROM ubuntu:18.04
 
 RUN apt-get update \

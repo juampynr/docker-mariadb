@@ -1,7 +1,7 @@
 CREATE DATABASE myproject;
 
 USE myproject;
-SOURCE /tmp/dumps/myproject.sql;
+SOURCE /tmp/dumps/dump.sql;
 
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
