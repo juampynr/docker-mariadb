@@ -1,4 +1,4 @@
-Dockerfile to build a MariaDB image which contains a database.
+Dockerfile to build a MariaDB image which contains a database. Based on https://github.com/lindycoder/prepopulated-mysql-container-example.
 
 # Description
 
